@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using tba.Core.Entities;
 using tba.Core.Persistence.Interfaces;
 
@@ -23,7 +24,7 @@ namespace tba.EFPersistence
         /// </summary>
         /// <param name="userId">user id used to capture in audit</param>
         /// <param name="entity">entity to create</param>
-        public void Insert(long userId, T entity)
+        public async Task InsertAsync(long userId, T entity)
         {
             if (entity == null)
                 throw new ArgumentNullException("entity");
@@ -34,7 +35,7 @@ namespace tba.EFPersistence
             Audit(userId, entity, Entity.AuditActionType.Insert);
 
             // update the data store
-            Context.SaveChanges();
+            await Context.SaveChangesAsync();
         }
 
         /// <summary>
@@ -42,7 +43,7 @@ namespace tba.EFPersistence
         /// </summary>
         /// <param name="userId">user id used to capture in audit</param>
         /// <param name="entity">entity to update</param>
-        public void Update(long userId, T entity)
+        public async Task UpdateAsync(long userId, T entity)
         {
             if (entity == null)
                 throw new ArgumentNullException("entity");
@@ -52,7 +53,7 @@ namespace tba.EFPersistence
             // update to data store
             Table.Attach(entity);
             Context.Entry((Entity)entity).State = EntityState.Modified;
-            Context.SaveChanges();
+            await Context.SaveChangesAsync();
         }
 
         /// <summary>
@@ -60,21 +61,21 @@ namespace tba.EFPersistence
         /// </summary>
         /// <param name="userId">user id used to capture in audit</param>
         /// <param name="entities">entities to update</param>
-        public void Update(long userId, IQueryable<T> entities)
+        public async Task UpdateAsync(long userId, IQueryable<T> entities)
         {
             if (entities == null)
                 throw new ArgumentNullException("entities");
 
             // process unit of work prior to update in data store
-            foreach (T entity in entities)
+            foreach (var entity in entities)
             {
                 Audit(userId, entity, Entity.AuditActionType.Update);
                 Table.Attach(entity);
                 Context.Entry((Entity)entity).State = EntityState.Modified;
             }
 
-            // update to data store           
-            Context.SaveChanges();
+            // update to data store  
+            await Context.SaveChangesAsync();
         }
 
         /// <summary>
@@ -136,7 +137,7 @@ namespace tba.EFPersistence
         private void Audit(long userId, T entity, Entity.AuditActionType auditAuditAction)
         {
             // todo (tba 28/2/15):  move DateTime.Now up
-           // Context.AuditEntities.Add(Entity.Audit.Create(userId, entity.Id, auditAuditAction, DateTime.Now));
+            // Context.AuditEntities.Add(Entity.Audit.Create(userId, entity.Id, auditAuditAction, DateTime.Now));
         }
     }
 }

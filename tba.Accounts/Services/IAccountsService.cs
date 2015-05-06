@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using tba.accounts.Models;
 
 namespace tba.accounts.Services
@@ -12,7 +13,7 @@ namespace tba.accounts.Services
         /// <param name="userId">a user</param>
         /// <param name="parentId">OPTIONAL - an account parent entity</param>
         /// <returns>array of account read-only models</returns>
-        AccountRm[] Fetch(long tenantId, long userId, long? parentId=null);
+        Task<AccountRm[]> FetchAsync(long tenantId, long userId, long? parentId=null);
 
         /// <summary>
         /// Insert a new account
@@ -21,7 +22,7 @@ namespace tba.accounts.Services
         /// <param name="userId">a user</param>
         /// <param name="account"></param>
         /// <returns>a read-only account model</returns>
-        AccountRm Insert(long tenantId, long userId, AccountCm account);
+        Task<AccountRm> InsertAsync(long tenantId, long userId, AccountCm account);
 
         /// <summary>
         /// Update an existing account
@@ -31,7 +32,7 @@ namespace tba.accounts.Services
         /// <param name="accountId">the id of the account to update</param>
         /// <param name="account">the account update model</param>
         /// <returns>a read-only account model</returns>
-        AccountRm Update(long tenantId, long userId, long accountId, AccountUm account);
+        Task<AccountRm> UpdateAsync(long tenantId, long userId, long accountId, AccountUm account);
 
         /// <summary>
         /// Mark and existing account as open (not complete)
@@ -40,7 +41,7 @@ namespace tba.accounts.Services
         /// <param name="userId">a user</param>
         /// <param name="accountId">the id of the account to mark as open</param>
         /// <returns>a read-only account model</returns>
-        AccountRm CloseAccount(long tenantId, long userId, long accountId);
+        Task<AccountRm> CloseAccount(long tenantId, long userId, long accountId);
 
         /// <summary>
         /// Delete an existing account
@@ -48,6 +49,6 @@ namespace tba.accounts.Services
         /// <param name="tenantId">a tenant</param>
         /// <param name="userId">a user</param>
         /// <param name="id">the id of the account to delete</param>
-        void Delete(long tenantId, long userId, long id);
+        Task DeleteAsync(long tenantId, long userId, long id);
     }
 }

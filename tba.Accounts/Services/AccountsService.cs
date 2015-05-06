@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using tba.Accounts.Entities;
 using tba.Core.Persistence.Interfaces;
 using tba.Core.Services;
@@ -23,9 +24,9 @@ namespace tba.accounts.Services
         /// <param name="userId">a user</param>
         /// <param name="parentId">OPTIONAL - an account parent entity</param>
         /// <returns>array of account read-only models</returns>
-        public AccountRm[] Fetch(long tenantId, long userId, long? parentId=null)
+        public async Task<AccountRm[]> FetchAsync(long tenantId, long userId, long? parentId = null)
         {
-            var entities = FetchEntities(tenantId, userId, parentId, false);
+            var entities = await FetchEntitiesAsync(tenantId, userId, parentId, false);
             return AccountRm.From(entities).Cast<AccountRm>().ToArray();
         }
 
@@ -36,7 +37,7 @@ namespace tba.accounts.Services
         /// <param name="userId">a user</param>
         /// <param name="account"></param>
         /// <returns>a read-only account model</returns>
-        public AccountRm Insert(long tenantId, long userId, AccountCm account)
+        public async Task<AccountRm> InsertAsync(long tenantId, long userId, AccountCm account)
         {
             var msg = "Insert" + ". " +
                        string.Format("tenantId={0}, userId={1}, account={2}", tenantId, userId, Serialization.Serialize(account));
@@ -45,7 +46,7 @@ namespace tba.accounts.Services
                 Log.Debug(msg);
                 // create an entity
                 var e = account.ToEntity(tenantId);
-                Repository.Insert(userId, e);
+                await Repository.InsertAsync(userId, e);
                 // return a account read-only view model
                 return (AccountRm) AccountRm.From(e);
             }
@@ -64,7 +65,7 @@ namespace tba.accounts.Services
         /// <param name="accountId">the id of the account to update</param>
         /// <param name="account">the account update model</param>
         /// <returns>a read-only account model</returns>
-        public AccountRm Update(long tenantId, long userId, long accountId, AccountUm account)
+        public async Task<AccountRm> UpdateAsync(long tenantId, long userId, long accountId, AccountUm account)
         {
             var msg = "Update" + ". " +
                        string.Format("tenantId={0}, userId={1}, accountId={2}, account={3}", tenantId, userId, accountId, Serialization.Serialize(account));
@@ -76,7 +77,7 @@ namespace tba.accounts.Services
                 var e = Repository.Get(accountId);
                 // update entity
                 account.UpdateEntity(e);
-                Repository.Update(userId, e);
+                await Repository.UpdateAsync(userId, e);
                 // convert it to a read model
                 return (AccountRm) AccountRm.From(e);
             }
@@ -94,7 +95,7 @@ namespace tba.accounts.Services
         /// <param name="userId">a user</param>
         /// <param name="accountId">the id of the account to mark as open</param>
         /// <returns>a read-only account model</returns>
-        public AccountRm CloseAccount(long tenantId, long userId, long accountId)
+        public async Task<AccountRm> CloseAccount(long tenantId, long userId, long accountId)
         {
             var msg = "CloseAccount" + ". " +
                        string.Format("tenantId={0}, userId={1}, accountId={2}", tenantId, userId, accountId);
@@ -106,7 +107,7 @@ namespace tba.accounts.Services
                 var e = Repository.Get(accountId);
                 // update entity
                 e.CloseAccount(TimeProvider.UtcNow);
-                Repository.Update(userId, e);
+                await Repository.UpdateAsync(userId, e);
                 // convert it to a read model
                 return (AccountRm) AccountRm.From(e);
             }

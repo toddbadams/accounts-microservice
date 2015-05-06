@@ -25,7 +25,7 @@ namespace tba.CoreUnitTests
         }
 
         [TestMethod]
-        public void CacheRepositoryCanInsert()
+        public async void CacheRepositoryCanInsert()
         {
             // Arrange
             var entities = FakeEntity.FakeEntities();
@@ -37,7 +37,7 @@ namespace tba.CoreUnitTests
             var repository = new CacheRepository<FakeEntity>(entities);
 
             // Act
-            repository.Insert(UserId, newEntity);
+            await repository.InsertAsync(UserId, newEntity);
             var result = repository.Exists(newEntity.Id);
 
             // Assert
@@ -45,7 +45,7 @@ namespace tba.CoreUnitTests
         }
 
         [TestMethod]
-        public void CacheRepositoryCanUpdate()
+        public async void CacheRepositoryCanUpdate()
         {
             // Arrange
             var entities = FakeEntity.FakeEntities();
@@ -54,7 +54,7 @@ namespace tba.CoreUnitTests
             var repository = new CacheRepository<FakeEntity>(entities);
 
             // Act
-            repository.Update(UserId, entity);
+            await repository.UpdateAsync(UserId, entity);
             var result = repository.Get(entity.Id);
 
             // Assert

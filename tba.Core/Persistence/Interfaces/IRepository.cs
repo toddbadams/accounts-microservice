@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using tba.Core.Entities;
 
 namespace tba.Core.Persistence.Interfaces
@@ -13,21 +14,21 @@ namespace tba.Core.Persistence.Interfaces
         /// </summary>
         /// <param name="userId">user id used to capture in audit</param>
         /// <param name="entity">entity to create</param>
-        void Insert(long userId, T entity);
+        Task InsertAsync(long userId, T entity);
 
         /// <summary>
         ///     Update an entity in the data store
         /// </summary>
         /// <param name="userId">user id used to capture in audit</param>
         /// <param name="entity">entity to update</param>
-        void Update(long userId, T entity);
+        Task UpdateAsync(long userId, T entity);
 
         /// <summary>
         ///     Update entities in the data store
         /// </summary>
         /// <param name="userId">user id used to capture in audit</param>
         /// <param name="entities">enumerable collection of entities to update</param>
-        void Update(long userId, IQueryable<T> entities);
+        Task UpdateAsync(long userId, IQueryable<T> entities);
 
         /// <summary>
         ///     Delete an entities that match the domainFilter from the data store

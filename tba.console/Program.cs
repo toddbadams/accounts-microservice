@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using tba.Accounts.Entities;
 using tba.accounts.Models;
 using tba.accounts.Services;
@@ -16,31 +17,32 @@ namespace tba.console
 
         static void Main(string[] args)
         {
-            var accounts = SeedAccounts();
+            var accounts = SeedAccountsAsync();
         }
 
-        private static IEnumerable<AccountRm> SeedAccounts()
+        private async static Task<IEnumerable<AccountRm>> SeedAccountsAsync()
         {
             var service = new AccountsService(new EfRepository<Account>(DataSource), DefaultTimeProvider.Instance);
 
-            return new List<AccountRm>
-            {
-                service.Insert(TenantId, UserId, new AccountCm
+            var results = new List<AccountRm>{
+                await service.InsertAsync(TenantId, UserId, new AccountCm
                 {
                     Name = "John C. Bla Trust Fund Current",
                     Type = Account.AccountTaxonomy.Current
                 }),
-                service.Insert(TenantId, UserId, new AccountCm
+                await service.InsertAsync(TenantId, UserId, new AccountCm
                 {
                     Name = "John C. Bla Trust Fund ISA",
                     Type = Account.AccountTaxonomy.Isa
                 }),
-                service.Insert(TenantId, UserId, new AccountCm
+                await service.InsertAsync(TenantId, UserId, new AccountCm
                 {
                     Name = "Mary Bla Trust Fund ISA",
                     Type = Account.AccountTaxonomy.Isa
                 })
             };
-        } 
+
+            return results;
+        }
     }
 }

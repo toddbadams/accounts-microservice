@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Linq;
+using System.Data.Entity;
+using System.Threading.Tasks;
 using log4net;
 using tba.Core.Entities;
 using tba.Core.Persistence.Extensions;
@@ -19,7 +20,7 @@ namespace tba.Core.Services
         protected EntityService(IRepository<T> repository, string serviceName, string friendlyName, ITimeProvider timeProvider)
         {
             Repository = repository;
-            Log = LogManager.GetLogger(serviceName); 
+            Log = LogManager.GetLogger(serviceName);
             FriendlyName = friendlyName;
             TimeProvider = timeProvider;
         }
@@ -31,9 +32,9 @@ namespace tba.Core.Services
         /// <param name="tenantId">a tenant</param>
         /// <param name="userId">a user</param>
         /// <param name="id">the id of the account to delete</param>
-        public void Delete(long tenantId, long userId, long id)
+        public async Task DeleteAsync(long tenantId, long userId, long id)
         {
-            SetIsDeleted(tenantId, userId, id, true);
+            await SetIsDeleted(tenantId, userId, id, true);
         }
 
         /// <summary>
@@ -54,7 +55,7 @@ namespace tba.Core.Services
         /// <param name="parentId">OPTIONAL - a parent entity</param>
         /// <param name="isDeleted">true to delete, false to undelete</param>
         /// <returns>an array of entities</returns>
-        protected T[] FetchEntities(long tenantId, long userId, long? parentId, bool isDeleted)
+        protected async Task<T[]> FetchEntitiesAsync(long tenantId, long userId, long? parentId, bool isDeleted)
         {
             var msg = "SetIsDeleted" + ". " +
                        string.Format("tenantId={0}, userId={1}, parentId={2}", tenantId, userId, parentId);
@@ -64,15 +65,15 @@ namespace tba.Core.Services
                 var query = Repository.Query();
                 query = isDeleted ? query.IsDeleted() : query.IsNotDeleted();
                 query = query.Tenant(tenantId);
-                var es = query.ToArray();
+                if (query == null) throw new Exception("empty query");
+                var es = await query.ToArrayAsync();
                 Log.Debug(msg + " => " + Serialization.Serialize(es));
-
                 return es;
             }
             catch (Exception exception)
             {
                 Log.Error(msg, exception);
-                return null;
+                throw;
             }
         }
 
@@ -148,7 +149,7 @@ namespace tba.Core.Services
         /// <param name="entityId">Id of the entity to delete or undelete</param>
         /// <param name="isDeleted">true to delete, false to undelete</param>
         /// <returns>The updated entity</returns>
-        protected void SetIsDeleted(long tenantId, long userId, long entityId, bool isDeleted)
+        protected async Task SetIsDeleted(long tenantId, long userId, long entityId, bool isDeleted)
         {
             var msg = "SetIsDeleted" + ". " +
                        string.Format("tenantId={0}, userId={1}, entityId={2}, active={3}", tenantId, userId, entityId, isDeleted);
@@ -158,7 +159,7 @@ namespace tba.Core.Services
                 Log.Debug(msg);
                 var e = Repository.Get(entityId);
                 e.IsDeleted = isDeleted;
-                Repository.Update(userId, e);
+                await Repository.UpdateAsync(userId, e);
                 Log.Debug(msg + " => " + Serialization.Serialize(e));
             }
             catch (Exception exception)

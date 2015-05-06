@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Threading.Tasks;
+using System.Web.Http;
 using tba.Accounts.Entities;
 using tba.accounts.Models;
 using tba.accounts.Services;
@@ -9,7 +10,9 @@ using tba.EFPersistence;
 namespace tba.AccountsWebApi.Controllers
 {
     /// <summary>
-    /// An application is a set of features
+    /// Account API
+    /// Utilizes async tasks to relase the thread upon request, then gets another
+    /// thread when the result comes back from data store.
     /// </summary>
     [RoutePrefix("accounts")]
     public class AccountsController : ApiController
@@ -38,9 +41,9 @@ namespace tba.AccountsWebApi.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("", Name = "getAccounts")]
-        public IHttpActionResult Get(long? parentId = null)
+        public async Task<IHttpActionResult> Get(long? parentId = null)
         {
-            var vm = _accountsService.Fetch(TenantId, UserId);
+            var vm = await _accountsService.FetchAsync(TenantId, UserId);
             return Ok(vm);
         }
 
@@ -52,9 +55,9 @@ namespace tba.AccountsWebApi.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("", Name = "insertAccount")]
-        public IHttpActionResult Post(AccountCm payload)
+        public async Task<IHttpActionResult> Post(AccountCm payload)
         {
-            var vm = _accountsService.Insert(TenantId, UserId, payload);
+            var vm = await _accountsService.InsertAsync(TenantId, UserId, payload);
             return Ok(vm);
         }
 
@@ -67,9 +70,9 @@ namespace tba.AccountsWebApi.Controllers
         [AllowAnonymous]
         [HttpPut]
         [Route("{id:guid}", Name = "updateAccount")]
-        public IHttpActionResult Put(long id, AccountUm payload)
+        public async Task<IHttpActionResult> Put(long id, AccountUm payload)
         {
-            var vm = _accountsService.Update(TenantId, UserId, id, payload);
+            var vm = await _accountsService.UpdateAsync(TenantId, UserId, id, payload);
             return Ok(vm);
         }
 
@@ -81,9 +84,9 @@ namespace tba.AccountsWebApi.Controllers
         [AllowAnonymous]
         [HttpDelete]
         [Route("{id:guid}", Name = "deleteAccount")]
-        public IHttpActionResult Delete(long id)
+        public async Task<IHttpActionResult> Delete(long id)
         {
-            _accountsService.Delete(TenantId, UserId, id);
+            await _accountsService.DeleteAsync(TenantId, UserId, id);
             return Ok();
         }
 
@@ -96,6 +99,5 @@ namespace tba.AccountsWebApi.Controllers
 
             base.Dispose(disposing);
         }
-
     }
 }
