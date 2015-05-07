@@ -113,9 +113,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\tba.AccountsWebApi\tba.AccountsWebApi.csproj">
-      <Project>{AA5B14C4-CA60-4A8A-B150-AFFDB1A41B11}</Project>
-      <Name>tba.AccountsWebApi</Name>
+    <ProjectReference Include="..\tba.SelfHost\tba.SelfHost.csproj">
+      <Project>{226a23c0-1b67-4c8d-81d4-885565ed8d79}</Project>
+      <Name>tba.SelfHost</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

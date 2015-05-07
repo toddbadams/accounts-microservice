@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using tba.AccountsWebApi.Controllers;
+using tba.SelfHost;
 
 namespace tba.AccountsWebApi.Tests.Controllers
 {
