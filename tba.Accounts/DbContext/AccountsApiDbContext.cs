@@ -1,11 +1,11 @@
 ﻿using System.Data.Entity;
 using tba.Accounts.Entities;
 
-namespace tba.SelfHost
+namespace tba.Accounts.DbContext
 {
     /// <summary>
     /// </summary>
-    public class AccountsApiDbContext : DbContext
+    public class AccountsApiDbContext : System.Data.Entity.DbContext
     {
         public AccountsApiDbContext(string connectionStringName)
             : base(connectionStringName)
@@ -18,6 +18,6 @@ namespace tba.SelfHost
             
         }
 
-        public DbSet<Account> Locales { get; set; }
+        public DbSet<Account> Accounts { get; set; }
     }
 }

@@ -1,13 +1,15 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
-using tba.Accounts.Entities;
 using tba.accounts.Models;
 using tba.accounts.Services;
+using tba.Accounts.DbContext;
+using tba.Accounts.Entities;
 using tba.Core.Persistence.Interfaces;
 using tba.Core.Utilities;
 using tba.EFPersistence;
+using tba.SelfHost;
 
-namespace tba.AccountsWebApi.Controllers
+namespace tba.Accounts.Controllers
 {
     /// <summary>
     /// Account API

@@ -113,9 +113,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\tba.SelfHost\tba.SelfHost.csproj">
-      <Project>{226a23c0-1b67-4c8d-81d4-885565ed8d79}</Project>
-      <Name>tba.SelfHost</Name>
+    <ProjectReference Include="..\tba.Accounts\tba.Accounts.csproj">
+      <Project>{2620bc8b-2678-40c2-b88e-32b8b4a82c31}</Project>
+      <Name>tba.Accounts</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
