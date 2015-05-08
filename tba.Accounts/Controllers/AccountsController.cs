@@ -7,7 +7,6 @@ using tba.Accounts.Entities;
 using tba.Core.Persistence.Interfaces;
 using tba.Core.Utilities;
 using tba.EFPersistence;
-using tba.SelfHost;
 
 namespace tba.Accounts.Controllers
 {
@@ -30,7 +29,7 @@ namespace tba.Accounts.Controllers
         public AccountsController()
         {
             // todo (tba:28/2/15):  move to IOC
-            var dataSource = new AccountsApiDbContext("DefaultConnection");
+            var dataSource = new AccountsDbContext("DefaultConnection");
             IRepository<Account> repository = new EfRepository<Account>(dataSource);
             _accountsService = new AccountsService(repository, DefaultTimeProvider.Instance);
         }
