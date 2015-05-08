@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("tba.Accounts")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("KSYS-SCCM-01")]
 [assembly: AssemblyProduct("tba.Accounts")]
-[assembly: AssemblyCopyright("Copyright ©  2015")]
+[assembly: AssemblyCopyright("Copyright © KSYS-SCCM-01 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8dceb616-7f71-41f8-98e9-d28f2b372f83")]
+[assembly: Guid("24abcb32-dc0f-4cb4-a397-3f9eea11703a")]
 
 // Version information for an assembly consists of the following four values:
 //

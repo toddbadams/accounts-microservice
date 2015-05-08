@@ -45,7 +45,7 @@ namespace tba.accounts.Services
             {
                 Log.Debug(msg);
                 // create an entity
-                var e = account.ToEntity(tenantId);
+                var e = account.ToEntity(tenantId, DateTime.Now);
                 await Repository.InsertAsync(userId, e);
                 // return a account read-only view model
                 return (AccountRm) AccountRm.From(e);

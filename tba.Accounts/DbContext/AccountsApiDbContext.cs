@@ -1,12 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Data.Entity;
-using System.Threading.Tasks;
-using tba.accounts.Models;
-using tba.accounts.Services;
+﻿using System.Data.Entity;
+using System.Data.Entity.SqlServer;
 using tba.Accounts.Entities;
 using tba.Accounts.Models;
-using tba.Core.Utilities;
-using tba.EFPersistence;
 
 namespace tba.Accounts.DbContext
 {
@@ -20,7 +15,7 @@ namespace tba.Accounts.DbContext
             // the terrible hack
             // http://stackoverflow.com/questions/21641435/error-no-entity-framework-provider-found-for-the-ado-net-provider-with-invarian
             var ensureDLLIsCopied =
-                    System.Data.Entity.SqlServer.SqlProviderServices.Instance;  
+                    SqlProviderServices.Instance;  
           
         }
 
@@ -30,7 +25,7 @@ namespace tba.Accounts.DbContext
             // the terrible hack
             // http://stackoverflow.com/questions/21641435/error-no-entity-framework-provider-found-for-the-ado-net-provider-with-invarian
             var ensureDLLIsCopied =
-                    System.Data.Entity.SqlServer.SqlProviderServices.Instance;  
+                    SqlProviderServices.Instance;  
         }
 
         static AccountsDbContext()

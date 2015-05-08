@@ -16,11 +16,11 @@ namespace tba.accounts.Models
         /// Mapper from this create account model to a account entity
         /// </summary>
         /// <param name="tenantId">the tenant</param>
+        /// <param name="openDate">Date of account open</param>
         /// <returns>a account entity</returns>
-        public Account ToEntity(long tenantId)
+        public Account ToEntity(long tenantId, DateTime openDate)
         {
-            // todo tba(15/3/15): move DateTime.Now up
-            return Account.Create(tenantId, Name, Description, Type, DateTime.Now);
+            return Account.Create(tenantId, Name, Description, Type, openDate);
         }
     }
 }

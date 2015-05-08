@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("tba.console")]
+[assembly: AssemblyTitle("tba.Accounts")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("tba.console")]
+[assembly: AssemblyProduct("tba.Accounts")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("1692cf79-4bd7-42d8-8cef-ce83dae70d06")]
+[assembly: Guid("8dceb616-7f71-41f8-98e9-d28f2b372f83")]
 
 // Version information for an assembly consists of the following four values:
 //
