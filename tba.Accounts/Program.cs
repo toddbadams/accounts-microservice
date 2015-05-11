@@ -1,30 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Threading.Tasks;
 using Microsoft.Owin.Hosting;
-using tba.accounts.Models;
-using tba.accounts.Services;
-using tba.Accounts.DbContext;
-using tba.Accounts.Entities;
-using tba.Core.Utilities;
-using tba.EFPersistence;
+using tba.Accounts.Configuration;
 
 namespace tba.Accounts
 {
     class Program
     {
-        private const long TenantId = 1;
-        private const long UserId = 1;
-        private const string ConnectionStringName = "DefaultConnection";
-        private const string BaseAddress = "http://localhost:9001/";
-       // private static readonly AccountsDbContext DataSource = new AccountsDbContext(ConnectionStringName);
+        //private const long TenantId = 1;
+        //private const long UserId = 1;
+        //private const string ConnectionStringName = "DefaultConnection";
+        // private static readonly AccountsDbContext DataSource = new AccountsDbContext(ConnectionStringName);
 
         static void Main(string[] args)
         {
             Console.WriteLine("Starting web Server...");
-            WebApp.Start<Startup>(url: BaseAddress);
-            Console.WriteLine("Server running at {0} - press Enter to quit. ", BaseAddress);
+            var cp = new AccountsConfigurationProvider();
+            var settings = cp.Read();
+            WebApp.Start<Startup>(url: settings.ServiceUrl);
+            Console.WriteLine("Server running at {0} - press Enter to quit. ", settings.ServiceUrl);
             Console.ReadLine();
         }
 
