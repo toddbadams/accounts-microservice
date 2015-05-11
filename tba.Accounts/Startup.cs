@@ -34,7 +34,7 @@ namespace tba.Accounts
         }
 
 
-        private HttpConfiguration ConfigureWebApi()
+        private static HttpConfiguration ConfigureWebApi()
         {
             var config = new HttpConfiguration();
             config.Routes.MapHttpRoute(

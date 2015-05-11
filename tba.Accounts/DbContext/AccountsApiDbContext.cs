@@ -15,25 +15,16 @@ namespace tba.Accounts.DbContext
             // the terrible hack
             // http://stackoverflow.com/questions/21641435/error-no-entity-framework-provider-found-for-the-ado-net-provider-with-invarian
             var ensureDLLIsCopied =
-                    SqlProviderServices.Instance;  
-          
-        }
-
-        public AccountsDbContext()
-            : base ("DefaultConnection")
-        {
-            // the terrible hack
-            // http://stackoverflow.com/questions/21641435/error-no-entity-framework-provider-found-for-the-ado-net-provider-with-invarian
-            var ensureDLLIsCopied =
-                    SqlProviderServices.Instance;  
-        }
-
-        static AccountsDbContext()
-        {
+                    SqlProviderServices.Instance;
             Database.SetInitializer(new AccountsDbInitializer());
         }
 
-        public DbSet<Account> Accounts { get; set; }
+        public AccountsDbContext()
+            : this ("DefaultConnection")
+        {
+        }
+
+        public IDbSet<Account> Accounts { get; set; }
         public IDbSet<MyUser> Users { get; set; }
         public IDbSet<MyUserClaim> Claims { get; set; }
     }
