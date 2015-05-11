@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+  <configSections>
+    <sectionGroup name="AppConfiguration" >
+      <section name="Test" type="tba.CoreUnitTests.Configuration.TestConfigurationSection, tba.CoreUnitTests"/>
+    </sectionGroup>
+  </configSections>
+  <AppConfiguration>
+    <Test MyBooleanSetting="true" />
+  </AppConfiguration>
+</configuration>
