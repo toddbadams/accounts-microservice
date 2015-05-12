@@ -1,19 +1,19 @@
 ﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using tba.Core.Entities;
 using tba.Core.Persistence.Cache;
 using tba.Core.Persistence.Extensions;
 using tba.Core.Persistence.Interfaces;
 
-namespace tba.CoreUnitTests
+namespace tba.CoreUnitTests.Persistence.Cache
 {
-    [TestClass]
+    [TestFixture]
     public class CacheRepositoryUnitTests
     {
         private const long UserId = 666;
 
-        [TestMethod]
-        public void CacheRepositoryCanCreate()
+        [Test]
+        public void Should_Create()
         {
             // Arrange
             var entities = FakeEntity.FakeEntities();
@@ -24,8 +24,8 @@ namespace tba.CoreUnitTests
             Assert.IsNotNull(uit);
         }
 
-        [TestMethod]
-        public async void CacheRepositoryCanInsert()
+        [Test]
+        public async void Should_Insert()
         {
             // Arrange
             var entities = FakeEntity.FakeEntities();
@@ -44,8 +44,8 @@ namespace tba.CoreUnitTests
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
-        public async void CacheRepositoryCanUpdate()
+        [Test]
+        public async void Should_Update()
         {
             // Arrange
             var entities = FakeEntity.FakeEntities();
@@ -61,8 +61,8 @@ namespace tba.CoreUnitTests
             Assert.AreEqual(entity, result);
         }
 
-        [TestMethod]
-        public void CacheRepositoryCanDeleteByQuery()
+        [Test]
+        public void Should_DeleteByQuery()
         {
             // Arrange
             var entities = FakeEntity.FakeEntities();
@@ -79,8 +79,8 @@ namespace tba.CoreUnitTests
             }
         }
 
-        [TestMethod]
-        public void CacheRepositoryCanDeleteById()
+        [Test]
+        public void Should_DeleteById()
         {
             // Arrange
             var entities = FakeEntity.FakeEntities();

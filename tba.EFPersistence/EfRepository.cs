@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -24,7 +25,7 @@ namespace tba.EFPersistence
         /// </summary>
         /// <param name="userId">user id used to capture in audit</param>
         /// <param name="entity">entity to create</param>
-        public async Task InsertAsync(long userId, T entity)
+        public async Task<T> InsertAsync(long userId, T entity)
         {
             if (entity == null)
                 throw new ArgumentNullException("entity");
@@ -36,6 +37,8 @@ namespace tba.EFPersistence
 
             // update the data store
             await Context.SaveChangesAsync();
+
+            return entity;
         }
 
         /// <summary>
@@ -43,7 +46,7 @@ namespace tba.EFPersistence
         /// </summary>
         /// <param name="userId">user id used to capture in audit</param>
         /// <param name="entity">entity to update</param>
-        public async Task UpdateAsync(long userId, T entity)
+        public async Task<T> UpdateAsync(long userId, T entity)
         {
             if (entity == null)
                 throw new ArgumentNullException("entity");
@@ -54,6 +57,7 @@ namespace tba.EFPersistence
             Table.Attach(entity);
             Context.Entry((Entity)entity).State = EntityState.Modified;
             await Context.SaveChangesAsync();
+            return entity;
         }
 
         /// <summary>
@@ -61,7 +65,7 @@ namespace tba.EFPersistence
         /// </summary>
         /// <param name="userId">user id used to capture in audit</param>
         /// <param name="entities">entities to update</param>
-        public async Task UpdateAsync(long userId, IQueryable<T> entities)
+        public async Task<IEnumerable<T>> UpdateAsync(long userId, IQueryable<T> entities)
         {
             if (entities == null)
                 throw new ArgumentNullException("entities");
@@ -76,6 +80,7 @@ namespace tba.EFPersistence
 
             // update to data store  
             await Context.SaveChangesAsync();
+            return entities.AsEnumerable();
         }
 
         /// <summary>

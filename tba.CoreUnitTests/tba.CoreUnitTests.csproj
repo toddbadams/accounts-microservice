@@ -99,6 +99,10 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
       <Private>True</Private>
@@ -161,11 +165,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="CacheReadOnlyRepositoryUnitTests.cs" />
+    <Compile Include="Persistence\Cache\CacheReadOnlyRepositoryUnitTests.cs" />
     <Compile Include="Configuration\ConfigurationProviderBaseTest.cs" />
-    <Compile Include="DateTimeExtensionsUnitTests.cs" />
-    <Compile Include="CacheRepositoryUnitTests.cs" />
-    <Compile Include="FakeEntity.cs" />
+    <Compile Include="Utilities\DateTimeExtensionsUnitTests.cs" />
+    <Compile Include="Persistence\Cache\CacheRepositoryUnitTests.cs" />
+    <Compile Include="Entities\FakeEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

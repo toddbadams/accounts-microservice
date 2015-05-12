@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using tba.Core.Entities;
@@ -30,14 +31,18 @@ namespace tba.Core.Persistence.Cache
         /// </summary>
         /// <param name="userId">user id used to capture in audit</param>
         /// <param name="entity">entity to create</param>
-        public Task InsertAsync(long userId, T entity)
+        public Task<T> InsertAsync(long userId, T entity)
         {
             if (entity == null)
                 throw new ArgumentNullException("entity");
+            var task = Task.Factory.StartNew(() =>
+            {
+                // add entity to data store
+                Items.Add(entity);
+                return entity;
+            });
 
-            // add entity to data store
-            Items.Add(entity);
-            return null;
+            return task;
         }
 
         /// <summary>
@@ -45,15 +50,19 @@ namespace tba.Core.Persistence.Cache
         /// </summary>
         /// <param name="userId">user id used to capture in audit</param>
         /// <param name="entity">entity to update</param>
-        public Task UpdateAsync(long userId, T entity)
+        public async Task<T> UpdateAsync(long userId, T entity)
         {
             if (entity == null)
                 throw new ArgumentNullException("entity");
+            var task = Task.Factory.StartNew(() =>
+            {
+                // update to data store
+                Delete(userId, entity.Id);
+                Items.Add(entity);
+                return entity;
+            });
 
-            // update to data store
-            Delete(userId, entity.Id);
-            Items.Add(entity);
-            return null;
+            return await task;
         }
 
         /// <summary>
@@ -61,18 +70,28 @@ namespace tba.Core.Persistence.Cache
         /// </summary>
         /// <param name="userId">user id used to capture in audit</param>
         /// <param name="entities">enumerable collection of entities to update</param>
-        public Task UpdateAsync(long userId, IQueryable<T> entities)
+        public async Task<IEnumerable<T>> UpdateAsync(long userId, IQueryable<T> entities)
         {
             if (entities == null)
                 throw new ArgumentNullException("entities");
 
-            // process unit of work prior to update in data store
+            var task = Task.Factory.StartNew(() => Update(userId, entities));
+
+            return await task;
+        }
+
+        private IEnumerable<T> Update(long userId, IQueryable<T> entities)
+        {
+            var results = new List<T>();
             foreach (var entity in entities)
             {
-                UpdateAsync(userId, entity);
+                // update to data store
+                Delete(userId, entity.Id);
+                Items.Add(entity);
+                results.Add(entity);
             }
-            return null;
-        }
+            return results;
+        } 
 
         /// <summary>
         ///     Delete an entities that match the query from the data store
@@ -86,7 +105,7 @@ namespace tba.Core.Persistence.Cache
 
             // loop and delete
             var items = entities.ToArray();
-            foreach(var item in items)
+            foreach (var item in items)
             {
                 Delete(userId, item.Id);
             }

@@ -1,16 +1,16 @@
 ﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using tba.Core.Persistence.Cache;
 using tba.Core.Persistence.Extensions;
 using tba.Core.Persistence.Interfaces;
 
-namespace tba.CoreUnitTests
+namespace tba.CoreUnitTests.Persistence.Cache
 {
-    [TestClass]
+    [TestFixture]
     public class CacheReadOnlyRepositoryUnitTests
     {
-        [TestMethod]
-        public void CacheReadOnlyRepository_ShouldCreate()
+        [Test]
+        public void Should_Create()
         {
             // Arrange
             var entities = FakeEntity.FakeEntities();
@@ -22,8 +22,8 @@ namespace tba.CoreUnitTests
             Assert.IsNotNull(uit);
         }
 
-        [TestMethod]
-        public void CacheReadOnlyRepository_ShouldFetchAll()
+        [Test]
+        public void Should_FetchAll()
         {
             // Arrange
             var entities = FakeEntity.FakeEntities();
@@ -37,8 +37,8 @@ namespace tba.CoreUnitTests
             Assert.AreEqual(entities.Count, result.Length);
         }
 
-        [TestMethod]
-        public void CacheReadOnlyRepository_ShouldFetchByQuery()
+        [Test]
+        public void Should_FetchByQuery()
         {
             // Arrange
             var entities = FakeEntity.FakeEntities();
@@ -53,8 +53,8 @@ namespace tba.CoreUnitTests
             Assert.AreEqual(entities.Count, result.Length);
         }
 
-        [TestMethod]
-        public void CacheReadOnlyRepository_ShouldCheckExistenceById()
+        [Test]
+        public void Should_CheckExistenceById()
         {
             // Arrange
             const int idNotUsed = 555;
@@ -71,8 +71,8 @@ namespace tba.CoreUnitTests
             Assert.IsFalse(resultShouldBeFalse);
         }
 
-        [TestMethod]
-        public void CacheReadOnlyRepository_ShouldGetById()
+        [Test]
+        public void Should_GetById()
         {
             // Arrange
             var entities = FakeEntity.FakeEntities();
