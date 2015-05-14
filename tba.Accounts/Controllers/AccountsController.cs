@@ -40,23 +40,11 @@ namespace tba.Accounts.Controllers
         /// Fetch a set of accounts for a parent
         /// </summary>
         /// <returns>set of accounts</returns>
-        //[AllowAnonymous]
-        //[Route("", Name = "getAccounts", Order = 7)]
-        //public async Task<IHttpActionResult> GetAll()
-        //{
-        //    var vm = await _accountsService.FetchAsync(TenantId, UserId);
-        //    return Ok(vm);
-        //}
-
-        /// <summary>
-        /// Fetch a set of accounts for a parent
-        /// </summary>
-        /// <returns>set of accounts</returns>
         [AllowAnonymous]
-        [Route("accounts/types", Name = "getAccounttypes", Order = 6)]
-        public IHttpActionResult GetTypes()
+        [Route("accounts", Name = "getAccounts", Order = 7)]
+        public async Task<IHttpActionResult> GetAll()
         {
-            var vm = _accountsService.GetTypes();
+            var vm = await _accountsService.FetchAsync(TenantId, UserId);
             return Ok(vm);
         }
 
