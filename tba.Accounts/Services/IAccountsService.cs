@@ -50,5 +50,7 @@ namespace tba.accounts.Services
         /// <param name="userId">a user</param>
         /// <param name="id">the id of the account to delete</param>
         Task DeleteAsync(long tenantId, long userId, long id);
+
+        AccountRm.AccountTypeRm[] GetTypes();
     }
 }

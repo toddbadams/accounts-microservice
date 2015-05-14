@@ -15,7 +15,7 @@ namespace tba.Accounts.Controllers
     /// Utilizes async tasks to relase the thread upon request, then gets another
     /// thread when the result comes back from data store.
     /// </summary>
-    [RoutePrefix("accounts")]
+   // [RoutePrefix("accounts")]
     public class AccountsController : ApiController
     {
         private readonly IAccountsService _accountsService;
@@ -33,20 +33,30 @@ namespace tba.Accounts.Controllers
 
         public AccountsController(IAccountsService accountsService)
         {
-            _accountsService = accountsService; 
+            _accountsService = accountsService;
         }
 
         /// <summary>
         /// Fetch a set of accounts for a parent
         /// </summary>
-        /// <param name="parentId">the parent</param>
+        /// <returns>set of accounts</returns>
+        //[AllowAnonymous]
+        //[Route("", Name = "getAccounts", Order = 7)]
+        //public async Task<IHttpActionResult> GetAll()
+        //{
+        //    var vm = await _accountsService.FetchAsync(TenantId, UserId);
+        //    return Ok(vm);
+        //}
+
+        /// <summary>
+        /// Fetch a set of accounts for a parent
+        /// </summary>
         /// <returns>set of accounts</returns>
         [AllowAnonymous]
-        [HttpGet]
-        [Route("", Name = "getAccounts")]
-        public async Task<IHttpActionResult> Get(long? parentId = null)
+        [Route("accounts/types", Name = "getAccounttypes", Order = 6)]
+        public IHttpActionResult GetTypes()
         {
-            var vm = await _accountsService.FetchAsync(TenantId, UserId);
+            var vm = _accountsService.GetTypes();
             return Ok(vm);
         }
 
@@ -57,10 +67,24 @@ namespace tba.Accounts.Controllers
         /// <returns>A account read model</returns>
         [AllowAnonymous]
         [HttpPost]
-        [Route("", Name = "insertAccount")]
+        [Route("accounts", Name = "insertAccount", Order = 3)]
         public async Task<IHttpActionResult> Post(AccountCm payload)
         {
             var vm = await _accountsService.InsertAsync(TenantId, UserId, payload);
+            return Ok(vm);
+        }
+
+        /// <summary>
+        /// Updates an existing account
+        /// </summary>
+        /// <param name="id">the id of the account to update</param>
+        /// <returns>A account read model</returns>
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("accounts/{id:long}/close", Name = "closeAccount", Order = 1)]
+        public async Task<IHttpActionResult> Close(long id)
+        {
+            var vm = await _accountsService.CloseAccount(TenantId, UserId, id);
             return Ok(vm);
         }
 
@@ -72,8 +96,8 @@ namespace tba.Accounts.Controllers
         /// <returns>A account read model</returns>
         [AllowAnonymous]
         [HttpPut]
-        [Route("{id:guid}", Name = "updateAccount")]
-        public async Task<IHttpActionResult> Put(long id, AccountUm payload)
+        [Route("accounts/{id:long}", Name = "updateAccount", Order = 2)]
+        public async Task<IHttpActionResult> Update(long id, AccountUm payload)
         {
             var vm = await _accountsService.UpdateAsync(TenantId, UserId, id, payload);
             return Ok(vm);
@@ -86,7 +110,7 @@ namespace tba.Accounts.Controllers
         /// <returns>status</returns>
         [AllowAnonymous]
         [HttpDelete]
-        [Route("{id:guid}", Name = "deleteAccount")]
+        [Route("accounts/{id:long}", Name = "deleteAccount")]
         public async Task<IHttpActionResult> Delete(long id)
         {
             await _accountsService.DeleteAsync(TenantId, UserId, id);

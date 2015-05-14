@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using tba.Core.Exceptions;
 
 namespace tba.Core.Configuration
 {

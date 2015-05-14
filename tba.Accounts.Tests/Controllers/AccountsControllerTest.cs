@@ -6,18 +6,18 @@ namespace tba.AccountsWebApi.Tests.Controllers
     [TestClass]
     public class AccountsControllerTest
     {
-        [TestMethod]
-        public void Get()
-        {
-            // Arrange
-            var controller = new AccountsController(null);
+        //[TestMethod]
+        //public void Get()
+        //{
+        //    // Arrange
+        //    var controller = new AccountsController(null);
 
-            // Act
-            var result = controller.Get();
+        //    // Act
+        //    var result = controller.Get();
 
-            // Assert
-            Assert.IsNotNull(result);
-        }
+        //    // Assert
+        //    Assert.IsNotNull(result);
+        //}
 
 
     }

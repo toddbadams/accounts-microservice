@@ -3,6 +3,7 @@ using System.Web.Http;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
+using tba.Core.Filters;
 using tba.Core.Persistence.Interfaces;
 using tba.Core.Utilities;
 using tba.EFPersistence;
@@ -18,6 +19,7 @@ namespace tba.Accounts
         // This method is required by Katana:
         public void Configuration(IAppBuilder app)
         {
+
             // todo move to IOC
             var context = new UsersDbContext();
             IHashProvider hashProvider = new HashProvider();
@@ -27,6 +29,8 @@ namespace tba.Accounts
             ConfigureAuth(app, oAuthServerProvider);
 
             var webApiConfiguration = ConfigureWebApi();
+            //LocalOnly (default), Always, Never
+            webApiConfiguration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Never;
             app.UseWebApi(webApiConfiguration);
             UnityResolver.Register(webApiConfiguration);
         }
@@ -55,6 +59,8 @@ namespace tba.Accounts
                 "DefaultApi",
                 "api/{controller}/{id}",
                 new { id = RouteParameter.Optional });
+            config.Filters.Add(new NotImplExceptionFilterAttribute());
+            config.Filters.Add(new EntityDoesNotExistExceptionFilterAttribute());
             return config;
         }
     }

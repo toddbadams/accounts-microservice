@@ -45,9 +45,10 @@ namespace tba.Core.Persistence.Extensions
         /// <summary>
         /// Check if an id exists
         /// </summary>
-        public static bool IdExists<T>(this IQueryable<T> query, long id ) where T : Entity
+        public static bool IdExists<T>(this IQueryable<T> query, long id) where T : Entity
         {
-            return query.Any(item =>  item.Id == id);
+            var result = query.Any(item => item.Id == id);
+            return result;
         }
 
 

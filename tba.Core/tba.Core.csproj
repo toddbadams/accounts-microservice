@@ -155,8 +155,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\ConfigurationProviderBase.cs" />
-    <Compile Include="Configuration\ConfigurationSectionMissingException.cs" />
+    <Compile Include="Exceptions\ConfigurationSectionMissingException.cs" />
     <Compile Include="Configuration\IConfigurationProvider.cs" />
+    <Compile Include="Exceptions\EntityDoesNotExistException.cs" />
+    <Compile Include="Filters\EntityDoesNotExistExceptionFilterAttribute.cs" />
+    <Compile Include="Filters\NotImplExceptionFilterAttribute.cs" />
     <Compile Include="Persistence\Extensions\IEmail.cs" />
     <Compile Include="Services\EntityService.cs" />
     <Compile Include="Persistence\Cache\CacheReadOnlyRepository.cs" />

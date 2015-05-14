@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace tba.Core.Configuration
+namespace tba.Core.Exceptions
 {
     public class ConfigurationSectionMissingException : Exception
     {

@@ -3,6 +3,7 @@ using System.Data.Entity;
 using System.Threading.Tasks;
 using log4net;
 using tba.Core.Entities;
+using tba.Core.Exceptions;
 using tba.Core.Persistence.Extensions;
 using tba.Core.Persistence.Interfaces;
 using tba.Core.Utilities;
@@ -134,11 +135,10 @@ namespace tba.Core.Services
         /// <param name="msg">Error message</param>
         protected void TenantCheck(long tenantId, long entityId, string msg)
         {
-            // 
             if (Exists(tenantId, entityId)) return;
-            var m = "The " + FriendlyName + " submitted for update does not exist.";
+            var m = string.Format("The {0} with id={1} submitted for update does not exist.", FriendlyName, entityId);
             Log.Error(msg);
-            throw new ApplicationException(m);
+            throw new EntityDoesNotExistException(m);
         }
 
         /// <summary>
@@ -161,6 +161,11 @@ namespace tba.Core.Services
                 e.IsDeleted = isDeleted;
                 await Repository.UpdateAsync(userId, e);
                 Log.Debug(msg + " => " + Serialization.Serialize(e));
+            }
+            catch (EntityDoesNotExistException exception)
+            {
+                Log.Error(msg, exception);
+                throw;
             }
             catch (Exception exception)
             {

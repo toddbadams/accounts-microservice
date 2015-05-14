@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using tba.Accounts.Entities;
+using tba.Core.Exceptions;
 using tba.Core.Persistence.Interfaces;
 using tba.Core.Services;
 using tba.Core.Utilities;
@@ -79,7 +80,12 @@ namespace tba.accounts.Services
                 account.UpdateEntity(e);
                 await Repository.UpdateAsync(userId, e);
                 // convert it to a read model
-                return (AccountRm) AccountRm.From(e);
+                return (AccountRm)AccountRm.From(e);
+            }
+            catch (EntityDoesNotExistException exception)
+            {
+                Log.Error(msg, exception);
+                throw;
             }
             catch (Exception exception)
             {
@@ -97,26 +103,32 @@ namespace tba.accounts.Services
         /// <returns>a read-only account model</returns>
         public async Task<AccountRm> CloseAccount(long tenantId, long userId, long accountId)
         {
-            var msg = "CloseAccount" + ". " +
-                       string.Format("tenantId={0}, userId={1}, accountId={2}", tenantId, userId, accountId);
-            try
-            {
-                TenantCheck(tenantId, accountId, msg);
-                Log.Debug(msg);
-                // get the entity by id, we already know it exists for the client.
-                var e = Repository.Get(accountId);
-                // update entity
-                e.CloseAccount(TimeProvider.UtcNow);
-                await Repository.UpdateAsync(userId, e);
-                // convert it to a read model
-                return (AccountRm) AccountRm.From(e);
-            }
-            catch (Exception exception)
-            {
-                Log.Error(msg, exception);
-                throw new ApplicationException("Failed to close the submitted " + FriendlyName);
-            }
+            throw new NotImplementedException();
+
+            //var msg = "CloseAccount" + ". " +
+            //           string.Format("tenantId={0}, userId={1}, accountId={2}", tenantId, userId, accountId);
+            //try
+            //{
+            //    TenantCheck(tenantId, accountId, msg);
+            //    Log.Debug(msg);
+            //    // get the entity by id, we already know it exists for the client.
+            //    var e = Repository.Get(accountId);
+            //    // update entity
+            //    e.CloseAccount(TimeProvider.UtcNow);
+            //    await Repository.UpdateAsync(userId, e);
+            //    // convert it to a read model
+            //    return (AccountRm) AccountRm.From(e);
+            //}
+            //catch (Exception exception)
+            //{
+            //    Log.Error(msg, exception);
+            //    throw new ApplicationException("Failed to close the submitted " + FriendlyName);
+            //}
         }
 
+        public AccountRm.AccountTypeRm[] GetTypes()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
