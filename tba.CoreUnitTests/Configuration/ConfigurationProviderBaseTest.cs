@@ -1,58 +1,49 @@
 ﻿using System;
-using System.Configuration;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using tba.Core.Configuration;
 
 namespace tba.CoreUnitTests.Configuration
 {
-    [TestClass]
+    [TestFixture]
     public class ConfigurationProviderBaseTest
     {
         private IConfigurationProvider<TestConfigurationSection> _provider;
+        private string _appBase;
+        private readonly Func<string, string, string> _buildFqn =
+            ((s, s1) => s + "\\..\\..\\Configuration\\TestData\\" + s1);
 
-        [TestInitialize]
+        [SetUp]
         public void TestInitialize()
         {
-            var appBase = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
+            _appBase = AppDomain.CurrentDomain.SetupInformation.ApplicationBase;
             _provider = new TestConfigurationProvider("AppConfiguration/Test");
-            _provider.SetConfigurationFile(BuildFqn(appBase, "TestSection.xml"));
         }
 
 
-        [TestMethod]
+        [Test]
+        [ExpectedException("tba.Core.Configuration.ConfigurationSectionMissingException")]
+        public void Should_Throw_When_TestConfigurationSection_Missing()
+        {
+            // Arrange
+            _provider.SetConfigurationFile(_buildFqn(_appBase, "TestSectionMissing.xml"));
+
+            // Act
+            _provider.Read();
+
+            // Assert
+        }
+
+        [Test]
         public void Should_Create_TestConfigurationSection()
         {
             // Arrange
+            _provider.SetConfigurationFile(_buildFqn(_appBase, "TestSection.xml"));
 
             // Act
             var result = _provider.Read();
 
             // Assert
             Assert.IsTrue(result.MyBooleanSetting);
-        }
-
-
-        private static string BuildFqn(string appBase, string filename)
-        {
-            var fqn = appBase + "\\..\\..\\Configuration\\TestData\\" + filename;
-            return fqn;
-        }
-    }
-
-    public class TestConfigurationProvider : ConfigurationProviderBase<TestConfigurationSection>
-    {
-        public TestConfigurationProvider(string filename)
-            : base(filename)
-        {
-        }
-    }
-
-    public class TestConfigurationSection : ConfigurationSection
-    {
-        [ConfigurationProperty("MyBooleanSetting", IsRequired = true)]
-        public bool MyBooleanSetting
-        {
-            get { return (bool)this["MyBooleanSetting"]; }
         }
     }
 }

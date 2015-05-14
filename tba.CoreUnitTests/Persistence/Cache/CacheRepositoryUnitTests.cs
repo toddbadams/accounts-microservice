@@ -4,6 +4,7 @@ using tba.Core.Entities;
 using tba.Core.Persistence.Cache;
 using tba.Core.Persistence.Extensions;
 using tba.Core.Persistence.Interfaces;
+using tba.CoreUnitTests.Entities;
 
 namespace tba.CoreUnitTests.Persistence.Cache
 {

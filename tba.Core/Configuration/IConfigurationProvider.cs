@@ -2,7 +2,7 @@
 
 namespace tba.Core.Configuration
 {
-    public interface IConfigurationProvider<T>
+    public interface IConfigurationProvider<out T>
         where T : ConfigurationSection 
     {
         void SetConfigurationFile(string fqFilename);

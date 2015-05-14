@@ -3,6 +3,7 @@ using NUnit.Framework;
 using tba.Core.Persistence.Cache;
 using tba.Core.Persistence.Extensions;
 using tba.Core.Persistence.Interfaces;
+using tba.CoreUnitTests.Entities;
 
 namespace tba.CoreUnitTests.Persistence.Cache
 {
@@ -27,6 +28,7 @@ namespace tba.CoreUnitTests.Persistence.Cache
         {
             // Arrange
             var entities = FakeEntity.FakeEntities();
+            var count = entities.Count();
             IReadOnlyRepository<FakeEntity> repository = new CacheReadOnlyRepository<FakeEntity>(entities);
 
             // Act
@@ -34,7 +36,7 @@ namespace tba.CoreUnitTests.Persistence.Cache
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(entities.Count, result.Length);
+            Assert.AreEqual(count, result.Length);
         }
 
         [Test]
@@ -42,7 +44,7 @@ namespace tba.CoreUnitTests.Persistence.Cache
         {
             // Arrange
             var entities = FakeEntity.FakeEntities();
-
+            var count = entities.Count();
             IReadOnlyRepository<FakeEntity> repository = new CacheReadOnlyRepository<FakeEntity>(entities);
 
             // Act
@@ -50,7 +52,7 @@ namespace tba.CoreUnitTests.Persistence.Cache
 
             // Assert
             Assert.IsNotNull(result);
-            Assert.AreEqual(entities.Count, result.Length);
+            Assert.AreEqual(count, result.Length);
         }
 
         [Test]

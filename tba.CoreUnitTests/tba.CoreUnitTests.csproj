@@ -165,8 +165,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Configuration\TestConfigurationProvider.cs" />
+    <Compile Include="Configuration\TestConfigurationSection.cs" />
+    <Compile Include="Entities\EntityTest.cs" />
     <Compile Include="Persistence\Cache\CacheReadOnlyRepositoryUnitTests.cs" />
     <Compile Include="Configuration\ConfigurationProviderBaseTest.cs" />
+    <Compile Include="Persistence\Extensions\QueryableExtensionMethodsTest.cs" />
     <Compile Include="Utilities\DateTimeExtensionsUnitTests.cs" />
     <Compile Include="Persistence\Cache\CacheRepositoryUnitTests.cs" />
     <Compile Include="Entities\FakeEntity.cs" />
@@ -188,6 +192,7 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Configuration\TestData\TestSectionMissing.xml" />
     <Content Include="Configuration\TestData\TestSection.xml" />
   </ItemGroup>
   <Choose>

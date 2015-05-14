@@ -1,28 +1,28 @@
+using System;
 using System.Collections.Generic;
 using tba.Core.Entities;
 
-namespace tba.CoreUnitTests
+namespace tba.CoreUnitTests.Entities
 {
     public class FakeEntity : Entity
     {
-        public static List<FakeEntity> FakeEntities()
+        public static Func<IEnumerable<FakeEntity>> FakeEntities = (() => new List<FakeEntity>
         {
-            var entities = new List<FakeEntity>
+            new FakeEntity
             {
-                new FakeEntity
-                {
-                    Id = 1
-                },
-                new FakeEntity
-                {
-                    Id = 2
-                },
-                new FakeEntity
-                {
-                    Id = 3
-                }
-            };
-            return entities;
-        }
+                Id = 1,
+                TenantId = 1
+            },
+            new FakeEntity
+            {
+                Id = 2,
+                TenantId = 2
+            },
+            new FakeEntity
+            {
+                Id = 3,
+                TenantId = 1
+            }
+        });
     }
 }
