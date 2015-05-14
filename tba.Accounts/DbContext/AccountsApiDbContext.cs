@@ -1,7 +1,11 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.SqlServer;
 using tba.Accounts.Entities;
-using tba.Accounts.Models;
+using tba.accounts.Services;
+using tba.Accounts.Services;
+using tba.Core.Persistence.Interfaces;
+using tba.Core.Utilities;
+using tba.EFPersistence;
 
 namespace tba.Accounts.DbContext
 {
@@ -20,12 +24,23 @@ namespace tba.Accounts.DbContext
         }
 
         public AccountsDbContext()
-            : this ("DefaultConnection")
+            : this("DefaultConnection")
         {
         }
 
         public IDbSet<Account> Accounts { get; set; }
-        public IDbSet<MyUser> Users { get; set; }
-        public IDbSet<MyUserClaim> Claims { get; set; }
+    }
+
+    public class AccountsDbInitializer : CreateDatabaseIfNotExists<AccountsDbContext>
+    {
+        protected override void Seed(AccountsDbContext context)
+        {
+            ITimeProvider timeProvider = TimeProvider.Current;
+            IRepository<Account> repository = new EfRepository<Account>(context);
+            IAccountsService accountsService = new AccountsService(repository, timeProvider);
+            var accountSeedService = new AccountSeedService(accountsService);
+            var seedTask = accountSeedService.SeedAccountsAsync(1, 1);
+            seedTask.Wait();
+        }
     }
 }

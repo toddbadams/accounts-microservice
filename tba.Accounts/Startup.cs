@@ -3,6 +3,13 @@ using System.Web.Http;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.OAuth;
 using Owin;
+using tba.Core.Persistence.Interfaces;
+using tba.Core.Utilities;
+using tba.EFPersistence;
+using tba.Users.DbContext;
+using tba.Users.Entities;
+using tba.Users.OAuth;
+using tba.Users.Services;
 
 namespace tba.Accounts
 {
@@ -11,25 +18,31 @@ namespace tba.Accounts
         // This method is required by Katana:
         public void Configuration(IAppBuilder app)
         {
-            ConfigureAuth(app);
+            // todo move to IOC
+            var context = new UsersDbContext();
+            IHashProvider hashProvider = new HashProvider();
+            IRepository<TbaUser> repository = new EfRepository<TbaUser>(context);
+            IUsersService usersService = new UsersService(repository, TimeProvider.Current, context, hashProvider);
+            OAuthAuthorizationServerProvider oAuthServerProvider = new ApplicationOAuthServerProvider(usersService);
+            ConfigureAuth(app, oAuthServerProvider);
 
             var webApiConfiguration = ConfigureWebApi();
             app.UseWebApi(webApiConfiguration);
         }
 
 
-        private void ConfigureAuth(IAppBuilder app)
+        private static void ConfigureAuth(IAppBuilder app, OAuthAuthorizationServerProvider oAuthServerProvider)
         {
-            var OAuthOptions = new OAuthAuthorizationServerOptions
+            var oAuthOptions = new OAuthAuthorizationServerOptions
             {
                 TokenEndpointPath = new PathString("/Token"),
-                Provider = new ApplicationOAuthServerProvider(),
+                Provider = oAuthServerProvider,
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
 
                 // Only do this for demo!!
                 AllowInsecureHttp = true
             };
-            app.UseOAuthAuthorizationServer(OAuthOptions);
+            app.UseOAuthAuthorizationServer(oAuthOptions);
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
         }
 

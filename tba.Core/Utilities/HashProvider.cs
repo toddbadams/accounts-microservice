@@ -3,9 +3,9 @@ using System.Security.Cryptography;
 
 namespace tba.Core.Utilities
 {
-    public class HashHelper
+    public class HashProvider : IHashProvider
     {
-        public static string GetHash(string input)
+        public string GetHash(string input)
         {
             HashAlgorithm hashAlgorithm = new SHA256CryptoServiceProvider();
             var byteValue = System.Text.Encoding.UTF8.GetBytes(input);

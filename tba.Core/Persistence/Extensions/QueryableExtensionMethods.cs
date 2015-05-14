@@ -49,5 +49,15 @@ namespace tba.Core.Persistence.Extensions
         {
             return query.Any(item =>  item.Id == id);
         }
+
+
+        /// <summary>
+        /// Return entities with a given tenant
+        /// </summary>
+        public static IQueryable<T> Email<T>(this IQueryable<T> query, string email) where T : IEmail
+        {
+            return query
+                .Where(item => item.Email == email);
+        }
     }
 }

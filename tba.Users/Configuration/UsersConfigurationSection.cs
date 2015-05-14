@@ -1,11 +1,11 @@
 ﻿using System.Configuration;
 
-namespace tba.Accounts.Configuration
+namespace tba.Users.Configuration
 {
-    public class AccountsConfigurationSection : ConfigurationSection
+    public class UsersConfigurationSection : ConfigurationSection
     {
         /// <summary>
-        /// URL of the accounts microservice
+        /// URL of the users microservice
         /// </summary>
         [ConfigurationProperty("ServiceUrl", IsRequired = true)]
         public string ServiceUrl

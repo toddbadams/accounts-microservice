@@ -57,7 +57,7 @@ namespace tba.Core.Services
         /// <returns>an array of entities</returns>
         protected async Task<T[]> FetchEntitiesAsync(long tenantId, long userId, long? parentId, bool isDeleted)
         {
-            var msg = "SetIsDeleted" + ". " +
+            var msg = "FetchEntitiesAsync" + ". " +
                        string.Format("tenantId={0}, userId={1}, parentId={2}", tenantId, userId, parentId);
             try
             {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace tba.Accounts.Models
+namespace tba.Users.Models
 {
-    public class MyUserClaim
+    public class TbaUserClaim
     {
-        public MyUserClaim()
+        public TbaUserClaim()
         {
             Id = Guid.NewGuid().ToString();
         }

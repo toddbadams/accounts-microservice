@@ -19,7 +19,7 @@ namespace tba.Core.Configuration
         /// <summary>
         /// Initialize the provider.
         /// </summary>
-        /// <param name="sectionName"></param>
+        /// <param name="sectionName">the configuration section name</param>
         protected ConfigurationProviderBase(string sectionName)
         {
             _sectionName = sectionName;
@@ -31,10 +31,7 @@ namespace tba.Core.Configuration
         /// <param name="fqFilename">fully qualified filename of the config file</param>
         public void SetConfigurationFile(string fqFilename)
         {
-            // Create the mapping.
             var fileMap = new ExeConfigurationFileMap { ExeConfigFilename = fqFilename };
-
-            // Open the configuration.
             _config = ConfigurationManager.OpenMappedExeConfiguration(fileMap, ConfigurationUserLevel.None);
         }
 
@@ -44,30 +41,24 @@ namespace tba.Core.Configuration
         /// <returns>A configuration section</returns>
         public T Read()
         {
-            var m = string.Format("Unable to read configuration section {0}", typeof(T).Name);
+            var m = string.Format("Unable to read configuration section {0}", _sectionName);
             try
             {
-                var section = GetSection() as T;
+                var section = (_config != null
+                    // custom config file
+                    ? _config.GetSection(_sectionName)
+                    // default config file
+                    : ConfigurationManager.GetSection(_sectionName)) as T;
+
                 if (section == null)
                     throw new ConfigurationSectionMissingException(m);
+
                 return section;
             }
             catch (Exception ex)
             {
                 throw new ConfigurationSectionMissingException(m, ex);
             }
-        }
-
-        /// <summary>
-        /// Get the section from the default configuration file or from the custom one.
-        /// </summary>
-        /// <returns></returns>
-        private object GetSection()
-        {
-            var section = _config != null
-                ? _config.GetSection(_sectionName)
-                : ConfigurationManager.GetSection(_sectionName);
-            return section;
         }
     }
 }

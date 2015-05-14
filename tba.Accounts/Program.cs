@@ -21,29 +21,6 @@ namespace tba.Accounts
             Console.ReadLine();
         }
 
-        //private async static Task<IEnumerable<AccountRm>> SeedAccountsAsync()
-        //{
-        //    var service = new AccountsService(new EfRepository<Account>(DataSource), DefaultTimeProvider.Instance);
-
-        //    var results = new List<AccountRm>{
-        //        await service.InsertAsync(TenantId, UserId, new AccountCm
-        //        {
-        //            Name = "John C. Bla Trust Fund Current",
-        //            Type = Account.AccountTaxonomy.Current
-        //        }),
-        //        await service.InsertAsync(TenantId, UserId, new AccountCm
-        //        {
-        //            Name = "John C. Bla Trust Fund ISA",
-        //            Type = Account.AccountTaxonomy.Isa
-        //        }),
-        //        await service.InsertAsync(TenantId, UserId, new AccountCm
-        //        {
-        //            Name = "Mary Bla Trust Fund ISA",
-        //            Type = Account.AccountTaxonomy.Isa
-        //        })
-        //    };
-
-        //    return results;
-        //}
+       
     }
 }

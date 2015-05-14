@@ -151,23 +151,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationOAuthServerProvider.cs" />
     <Compile Include="Configuration\AccountsConfigurationProvider.cs" />
     <Compile Include="Configuration\AccountsConfigurationSection.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
     <Compile Include="DbContext\AccountsApiDbContext.cs" />
-    <Compile Include="DbContext\AccountsDbInitializer.cs" />
     <Compile Include="Entities\Account.cs" />
     <Compile Include="Models\AccountCm.cs" />
     <Compile Include="Models\AccountRm.cs" />
     <Compile Include="Models\AccountUm.cs" />
-    <Compile Include="Models\Company.cs" />
-    <Compile Include="Models\MyPasswordHasher.cs" />
-    <Compile Include="Models\MyUser.cs" />
-    <Compile Include="Models\MyUserClaim.cs" />
-    <Compile Include="Models\MyUserStore.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccountSeedService.cs" />
     <Compile Include="Services\AccountsService.cs" />
     <Compile Include="Services\IAccountsService.cs" />
     <Compile Include="Startup.cs" />
@@ -184,6 +178,10 @@
     <ProjectReference Include="..\tba.EFPersistence\tba.EFPersistence.csproj">
       <Project>{689342b8-1099-464c-b6bb-c297d632785b}</Project>
       <Name>tba.EFPersistence</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\tba.Users\tba.Users.csproj">
+      <Project>{98d45b36-0b26-4ad9-b60a-f5d1bd4b704c}</Project>
+      <Name>tba.Users</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
