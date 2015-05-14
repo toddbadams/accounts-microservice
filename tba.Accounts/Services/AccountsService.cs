@@ -27,7 +27,7 @@ namespace tba.accounts.Services
         public async Task<AccountRm[]> FetchAsync(long tenantId, long userId, long? parentId = null)
         {
             var entities = await FetchEntitiesAsync(tenantId, userId, parentId, false);
-            return AccountRm.From(entities).Cast<AccountRm>().ToArray();
+            return AccountRm.From(entities).ToArray();
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace tba.accounts.Services
                 var e = account.ToEntity(tenantId, DateTime.Now);
                 await Repository.InsertAsync(userId, e);
                 // return a account read-only view model
-                return (AccountRm) AccountRm.From(e);
+                return AccountRm.From(e);
             }
             catch (Exception exception)
             {

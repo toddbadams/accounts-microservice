@@ -1,8 +1,8 @@
 ﻿using System.Threading.Tasks;
 using System.Web.Http;
+using tba.Accounts.Context;
 using tba.accounts.Models;
 using tba.accounts.Services;
-using tba.Accounts.DbContext;
 using tba.Accounts.Entities;
 using tba.Core.Persistence.Interfaces;
 using tba.Core.Utilities;
@@ -23,15 +23,17 @@ namespace tba.Accounts.Controllers
         private const long UserId = 1;
         private const long TenantId = 1;
 
-        /// <summary>
-        /// 
-        /// </summary>
         public AccountsController()
         {
-            // todo (tba:28/2/15):  move to IOC
+            // Poor man's IOC
             var dataSource = new AccountsDbContext("DefaultConnection");
             IRepository<Account> repository = new EfRepository<Account>(dataSource);
             _accountsService = new AccountsService(repository, DefaultTimeProvider.Instance);
+        }
+
+        public AccountsController(IAccountsService accountsService)
+        {
+            _accountsService = accountsService; 
         }
 
         /// <summary>

@@ -28,6 +28,7 @@ namespace tba.Accounts
 
             var webApiConfiguration = ConfigureWebApi();
             app.UseWebApi(webApiConfiguration);
+            UnityResolver.Register(webApiConfiguration);
         }
 
 

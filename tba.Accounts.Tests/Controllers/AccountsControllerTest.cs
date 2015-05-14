@@ -10,7 +10,7 @@ namespace tba.AccountsWebApi.Tests.Controllers
         public void Get()
         {
             // Arrange
-            var controller = new AccountsController();
+            var controller = new AccountsController(null);
 
             // Act
             var result = controller.Get();
