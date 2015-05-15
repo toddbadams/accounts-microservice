@@ -27,7 +27,7 @@ namespace tba.Accounts.Controllers
         {
             // Poor man's IOC
             var dataSource = new AccountsDbContext("DefaultConnection");
-            IRepository<Account> repository = new EfRepository<Account>(dataSource);
+            IRepository<Account> repository = new EfRepository<Account>(dataSource, TimeProvider.Current);
             _accountsService = new AccountsService(repository, DefaultTimeProvider.Instance);
         }
 

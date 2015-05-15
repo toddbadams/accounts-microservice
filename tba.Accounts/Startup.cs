@@ -23,7 +23,7 @@ namespace tba.Accounts
             // todo move to IOC
             var context = new UsersDbContext();
             IHashProvider hashProvider = new HashProvider();
-            IRepository<TbaUser> repository = new EfRepository<TbaUser>(context);
+            IRepository<TbaUser> repository = new EfRepository<TbaUser>(context, TimeProvider.Current);
             IUsersService usersService = new UsersService(repository, TimeProvider.Current, context, hashProvider);
             OAuthAuthorizationServerProvider oAuthServerProvider = new ApplicationOAuthServerProvider(usersService);
             ConfigureAuth(app, oAuthServerProvider);

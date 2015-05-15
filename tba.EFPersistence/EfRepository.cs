@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using tba.Core.Entities;
 using tba.Core.Persistence.Interfaces;
+using tba.Core.Utilities;
 
 namespace tba.EFPersistence
 {
@@ -13,9 +14,14 @@ namespace tba.EFPersistence
     /// </summary>
     public sealed class EfRepository<T> : EfReadOnlyRepository<T>, IRepository<T> where T : Entity
     {
-        public EfRepository(DbContext context)
+        private readonly ITimeProvider _timeProvider;
+        private readonly IDbSet<Entity.Audit> _auditTable;
+
+        public EfRepository(DbContext context, ITimeProvider timeProvider)
             : base(context)
         {
+            _timeProvider = timeProvider;
+            _auditTable = context.Set<Entity.Audit>();
         }
 
         #region public CRUD Methods
@@ -141,8 +147,8 @@ namespace tba.EFPersistence
         /// <param name="auditAuditAction">The change AuditAction (insert,update,delete)</param>
         private void Audit(long userId, T entity, Entity.AuditActionType auditAuditAction)
         {
-            // todo (tba 28/2/15):  move DateTime.Now up
-            // Context.AuditEntities.Add(Entity.Audit.Create(userId, entity.Id, auditAuditAction, DateTime.Now));
+            var a = entity.ToAuditEntity(userId, _timeProvider.UtcNow.ToUnixTimestamp(), auditAuditAction);
+            _auditTable.Add(a);
         }
     }
 }

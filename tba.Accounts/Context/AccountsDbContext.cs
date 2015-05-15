@@ -1,6 +1,7 @@
 using System.Data.Entity;
 using System.Data.Entity.SqlServer;
 using tba.Accounts.Entities;
+using tba.Core.Entities;
 
 namespace tba.Accounts.Context
 {
@@ -24,5 +25,6 @@ namespace tba.Accounts.Context
         }
 
         public IDbSet<Account> Accounts { get; set; }
+        public IDbSet<Entity.Audit> Audits { get; set; }
     }
 }

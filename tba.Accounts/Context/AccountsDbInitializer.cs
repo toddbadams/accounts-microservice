@@ -12,9 +12,8 @@ namespace tba.Accounts.Context
     {
         protected override void Seed(AccountsDbContext context)
         {
-            ITimeProvider timeProvider = TimeProvider.Current;
-            IRepository<Account> repository = new EfRepository<Account>(context);
-            IAccountsService accountsService = new AccountsService(repository, timeProvider);
+            IRepository<Account> repository = new EfRepository<Account>(context, TimeProvider.Current);
+            IAccountsService accountsService = new AccountsService(repository, TimeProvider.Current);
             var accountSeedService = new AccountSeedService(accountsService);
             var seedTask = accountSeedService.SeedAccountsAsync(1, 1);
             seedTask.Wait();

@@ -96,21 +96,18 @@ namespace tba.Core.Entities
             /// Database generated identifier 
             /// </summary>
             [Required]
-            [MaxLength(22)]
             public long Id { get; set; }
 
             /// <summary>
             /// The user making the change (aka the action)
             /// </summary>
             [Required]
-            [MaxLength(22)]
             public long UserId { get; set; }
 
             /// <summary>
             /// The id of the entity that is changing (aka the action)
             /// </summary>
             [Required]
-            [MaxLength(22)]
             public long EntityId { get; set; }
 
             /// <summary>

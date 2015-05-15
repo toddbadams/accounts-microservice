@@ -164,7 +164,7 @@
     <Compile Include="Configuration\AccountsConfigurationSection.cs" />
     <Compile Include="Controllers\AccountTypesController.cs" />
     <Compile Include="Controllers\AccountsController.cs" />
-    <Compile Include="Context\AccountsApiDbContext.cs" />
+    <Compile Include="Context\AccountsDbInitializer.cs" />
     <Compile Include="Context\AccountsDbContext.cs" />
     <Compile Include="UnityResolver.cs" />
     <Compile Include="Entities\Account.cs" />
